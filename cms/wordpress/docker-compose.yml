@@ -1,9 +1,9 @@
 version: '3.1'
-
 services:
-
   wordpress:
     image: wordpress
+    hostname: wordpress-cms
+    container_name: wordepress-cms
     restart: always
     ports:
       - 8080:80
@@ -14,9 +14,10 @@ services:
       WORDPRESS_DB_NAME: exampledb
     volumes:
       - wordpress:/var/www/html
-
   db:
     image: mysql:5.7
+    hostname: wordpress-db-mysql
+    container_name: wordepress-db-mysql
     restart: always
     environment:
       MYSQL_DATABASE: exampledb

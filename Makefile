@@ -2,17 +2,17 @@
 
 CMS_FOLDER=./cms
 
-wordpress-up: ## Wordpress up on http://localhost:8080/
-	cd $(CMS_FOLDER)/wordpress && $(MAKE) down && $(MAKE) up
+wordpress-up: wordpress-down ## Wordpress up on http://localhost:8080/
+	cd $(CMS_FOLDER)/wordpress && docker-compose up -d --remove-orphans
 
 wordpress-down: ## Wordpress down
-	cd $(CMS_FOLDER)/wordpress && $(MAKE) down
-
-drupal-up: ## Drupal up on http://localhost:8081/
-	cd $(CMS_FOLDER)/drupal && $(MAKE) down && $(MAKE) up
+	cd $(CMS_FOLDER)/wordpress && docker-compose down -v --remove-orphans
+	
+drupal-up: drupal-down ## Drupal up on http://localhost:8081/
+	cd $(CMS_FOLDER)/drupal && docker-compose up -d --remove-orphans
 
 drupal-down: ## Drupal down
-	cd $(CMS_FOLDER)/drupal && $(MAKE) down
+	cd $(CMS_FOLDER)/drupal && docker-compose down -v --remove-orphans
 
 all-up: ## Bring up all defined CMS
 	$(MAKE) drupal-up

@@ -1,23 +1,32 @@
 version: '3.1'
-
 services:
 
-  drupal:
+  drupal-cms:
     image: drupal:8-apache
+    hostname: drupal-cms
+    container_name: drupal-cms
     ports:
       - 8081:80
     volumes:
       - /var/www/html/modules
       - /var/www/html/profiles
       - /var/www/html/themes
-      # this takes advantage of the feature in Docker that a new anonymous
-      # volume (which is what we're creating here) will be initialized with the
-      # existing content of the image at the same location
       - /var/www/html/sites
+    environment:
+      POSTGRES_DB_HOST: drupal-db-postgres
+      POSTGRES_DB_NAME: drupal-cms
+      POSTGRES_DB_USER: drupal-cms
+      POSTGRES_DB_PASSWORD: drupal-pass
     restart: always
 
-  postgres:
+  drupal-db-postgres:
     image: postgres:10
+    hostname: drupal-db-postgres
+    container_name: drupal-db-postgres
     environment:
-      POSTGRES_PASSWORD: example
+      POSTGRES_DB: drupal-cms
+      POSTGRES_USER: drupal-cms
+      POSTGRES_PASSWORD: drupal-pass
     restart: always
+    # ports:
+    #   - 5432:5432
